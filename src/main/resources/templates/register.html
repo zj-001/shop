@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="stylesheet" href="css/iconfont.css">
+<link rel="stylesheet" href="css/global.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/login.css">
+<script src="js/jquery.1.12.4.min.js" charset="UTF-8"></script>
+<script src="js/bootstrap.min.js" charset="UTF-8"></script>
+<script src="js/jquery.form.js" charset="UTF-8"></script>
+<script src="js/global.js" charset="UTF-8"></script>
+<script src="js/login.js" charset="UTF-8"></script>
+<script src="js/login2.js" charset="UTF-8"></script>
+<title>U袋网 - 登录 / 注册</title>
+<script type="text/javascript" th:inline="javascript">
+	$(function(){
+		/* 后端验证弹框 */
+			alert([[${error}]])
+		$("#sendCode").click(function(){
+			$.post([[@{/sendCode}]],
+			{'email':$("#register_eamil").val()},
+			function(data){
+				 data=eval("("+data+")");
+			});
+		});
+	}); 
+	
+	 function verify() {
+	        var phone = $("#register_phone").val();
+	        var email = $("#register_eamil").val();
+	        var code = $("#register_code").val();
+	        var pwd = $("#register_pwd").val();
+	        var reg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5})$/;
+	        if (phone.length < 3 || phone.length>10){
+	        	alert('用户名错误');
+	            return false;
+	        }
+	        if (!reg.test(email)){
+	        	alert('邮箱格式错误');
+	            return false;
+	        }
+	        if (code.length!=6){
+	        	alert('请输入6位验证码');
+	            return false;
+	        }
+	        if (pwd.length<6||pwd.length>10){
+	        	alert('请输入6-10位的密码');
+	            return false;
+	        }
+	 }
+</script>
+<!-- <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+ 
+ 
+        $("#sendCode").click(function(){
+            $.ajax({
+                type: 'post',
+                dataType: 'text',
+                url: [[@{/sendCode/ajaxtest}]],
+                data: {},
+                cache: false,
+                async: true,
+                success: function (data) {
+                }
+            });
+        });
+ 
+        /*]]>*/
+    </script> -->
+</head>
+<body>
+	<div class="public-head-layout container">
+		<a class="logo" href="index.html"><img src="images/icons/logo.jpg"
+			alt="U袋网" class="cover"></a>
+	</div>
+	<div
+		style="background: url(images/login_bg.jpg) no-repeat center center;">
+		<div class="login-layout container">
+			<div class="form-box register">
+				<div class="tabs-nav">
+					<h2>
+						欢迎注册<a th:href="@{/login.html}" class="pull-right fz16" id="reglogin">返回登录</a>
+					</h2>
+				</div>
+				<div class="tabs_container">
+					<form class="tabs_form" th:action="@{/register}" method="post"
+						id="register_form" onsubmit="return verify()">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+								</div>
+								<input class="form-control phone" name="uname" 
+									id="register_phone" required placeholder="用户名" maxlength="6"
+									autocomplete="off" type="text">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+								</div>
+								<input class="form-control email" name="email" 
+									id="register_eamil" required placeholder="邮箱" maxlength="20"
+									autocomplete="off" type="text">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<input class="form-control" name="code" id="register_code"
+									placeholder="输入验证码" type="text" required> <span
+									class="input-group-btn">
+									<button class="btn btn-primary getsms" type="button" id="sendCode" >发送邮箱验证码<span></span></button>
+									
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+								</div>
+								<input class="form-control password" name="password"
+									id="register_pwd" placeholder="请输入密码" autocomplete="off"
+									type="password" required>
+								<div class="input-group-addon pwd-toggle" title="显示密码">
+									<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="checkbox">
+							<label> <input checked="" id="register_checkbox"
+								type="checkbox"><i></i> 同意<a
+								href="temp_article/udai_article3.html">U袋网用户协议</a>
+							</label>
+						</div>
+						<!-- 错误信息 -->
+						<div class="form-group">
+							<div class="error_msg" id="register_error">
+								<!-- <div class="alert alert-warning alert-dismissible fade in" role="alert" >
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">×</span>
+									</button>
+									<strong>账号名</strong> 错误
+								</div> -->
+							</div>
+							
+						</div>
+						<button class="btn btn-large btn-primary btn-lg btn-block submit"
+							id="register_submit" type="submit">注册</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-login container clearfix">
+		<ul class="links">
+			<a href=""><li>网店代销</li></a>
+			<a href=""><li>U袋学堂</li></a>
+			<a href=""><li>联系我们</li></a>
+			<a href=""><li>企业简介</li></a>
+			<a href=""><li>新手上路</li></a>
+		</ul>
+		<!-- 版权 -->
+		<p class="copyright">
+			© 2005-2017 U袋网 版权所有，并保留所有权利<br>
+			ICP备案证书号：闽ICP备16015525号-2&nbsp;&nbsp;&nbsp;&nbsp;福建省宁德市福鼎市南下村小区（锦昌阁）1栋1梯602室&nbsp;&nbsp;&nbsp;&nbsp;Tel:
+			18650406668&nbsp;&nbsp;&nbsp;&nbsp;E-mail: 18650406668@qq.com
+		</p>
+	</div>
+</body>
+</html>

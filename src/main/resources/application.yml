@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///shop?serverTimezone=Asia/Shanghai
+    username: root
+    password: 950915
+    #      数据源其他配置
+    #      下面为连接池的补充设置
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  thymeleaf:
+    cache: false
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+
+  mvc:
+    date-format: yyyy-MM-dd
+  servlet:
+    multipart:
+      #上传单个文件的最大值
+      max-file-size: 10MB
+      #上传文件总的最大值
+      max-request-size: 20MB
+
+
+mybatis:
+  type-aliases-package: com.newsoft.shop.entity
+  mapper-locations: classpath:mapper/*.xml
+
+
+
